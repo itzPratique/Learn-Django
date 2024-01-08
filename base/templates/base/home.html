@@ -1,0 +1,27 @@
+{% extends "Layout.html" %}
+
+{% block content%}
+<h1>Home</h1>
+<div>
+    <div>
+        {% comment %} Hi my name is {{ rooms.0.name }} {% endcomment %}
+    </div>
+
+    {% for room in rooms %}
+        {% comment %} {% if room.name == "pratik" %} {% endcomment %}
+            <div>
+                {{ room.name }} hacker
+                <a href="/room/{{ room.id }}/"> {{room.id}} </a>
+             </div>
+        {% comment %} {% elif room.name == "yash" %} {% endcomment %}
+        <div>
+            {% comment %} {{ room.name }} gamer {% endcomment %}
+        </div> 
+        {% comment %} {% else %} {% endcomment %}
+        {% comment %} <div>{{room.name}} coder</div> {% endcomment %}
+        {% comment %} {% endif %}   {% endcomment %}
+
+    {% endfor %}
+
+</div>
+{% endblock %}
