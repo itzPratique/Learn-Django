@@ -1,27 +1,69 @@
 {% extends "Layout.html" %}
 
 {% block content%}
+
+<style>
+    .home_container{
+        display: flex;
+        gap:20px
+    }
+
+    .browse_topics{
+        width: 300px
+    }
+    
+    .rooms{
+        display:flex 
+        flex-direction: column
+    }
+</style>
+
 <h1>Home</h1>
-<div>
-    <div>
-        {% comment %} Hi my name is {{ rooms.0.name }} {% endcomment %}
+<div class= "home_container">
+
+    <div class="browse_topics"> 
+       <h3>Browse Topics</h3>
+       <hr>
+       
+       <div>
+        <a href="{% url 'home' %}">All</a>
+        </div>
+
+       {% for topic in topics %}
+        <div>
+           <a href="{% url 'home' %}?q={{topic.name}}">{{ topic.name }}</a>
+        </div>
+       {% endfor %} 
     </div>
 
-    {% for room in rooms %}
-        {% comment %} {% if room.name == "pratik" %} {% endcomment %}
-            <div>
-                {{ room.name }} hacker
-                <a href="/room/{{ room.id }}/"> {{room.id}} </a>
-             </div>
-        {% comment %} {% elif room.name == "yash" %} {% endcomment %}
-        <div>
-            {% comment %} {{ room.name }} gamer {% endcomment %}
-        </div> 
-        {% comment %} {% else %} {% endcomment %}
-        {% comment %} <div>{{room.name}} coder</div> {% endcomment %}
-        {% comment %} {% endif %}   {% endcomment %}
+    <div class="rooms">
+        <a href="{% url 'create_room' %}">Create Room</a>
+        {% comment %} <div>
+            Hi my name is {{ rooms.0.name }}
+        </div> {% endcomment %}
+    
+        {% for room in rooms %}
+            {% comment %} {% if room.name == "pratik" %} {% endcomment %}
+                <div>
+                   
+                    <h2>{{ room.name }} </h2>  
+                    <small>{{room.topic.name}}</small> <a href="/room/{{ room.id }}/"> {{room.id}} </a><br>
+                    <span>@{{room.host.username}}</span>
+                    <h3>{{ room.description }}</h3>
+                    <a href="{% url 'update_room' room.id %}">Edit</a>
+                    <a href="{% url 'delete_room' room.id %}">Delete</a>
+                 </div>
+            {% comment %} {% elif room.name == "yash" %} {% endcomment %}
+            {% comment %} <div>
+                {{ room.name }} gamer
+            </div>  {% endcomment %}
+            {% comment %} {% else %} {% endcomment %}
+            {% comment %} <div>{{room.name}} coder</div> {% endcomment %}
+            {% comment %} {% endif %}   {% endcomment %}
+    
+        {% endfor %}
 
-    {% endfor %}
+    </div>
 
 </div>
 {% endblock %}
