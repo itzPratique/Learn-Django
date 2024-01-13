@@ -37,6 +37,7 @@
     </div>
 
     <div class="rooms">
+        <h5>{{room_count}} rooms available</h5>
         <a href="{% url 'create_room' %}">Create Room</a>
         {% comment %} <div>
             Hi my name is {{ rooms.0.name }}
@@ -47,11 +48,15 @@
                 <div>
                    
                     <h2>{{ room.name }} </h2>  
-                    <small>{{room.topic.name}}</small> <a href="/room/{{ room.id }}/"> {{room.id}} </a><br>
+                    <a href="/room/{{ room.id }}/"> {{room.id}} {{room.topic.name}}</a><br>
                     <span>@{{room.host.username}}</span>
                     <h3>{{ room.description }}</h3>
-                    <a href="{% url 'update_room' room.id %}">Edit</a>
-                    <a href="{% url 'delete_room' room.id %}">Delete</a>
+                    {% if request.user != room.host %}
+                        <p>Empty!</p>
+                    {% else %}
+                        <a href="{% url 'update_room' room.id %}">Edit</a>
+                        <a href="{% url 'delete_room' room.id %}">Delete</a>
+                    {% endif %}
                  </div>
             {% comment %} {% elif room.name == "yash" %} {% endcomment %}
             {% comment %} <div>

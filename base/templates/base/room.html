@@ -1,8 +1,50 @@
-{% extends 'Layout.html' %} 
-{% block content %} 
-{% comment %}
+{% extends 'Layout.html' %} {% block content %} {% comment %}
 <h1>Room {{ id }}</h1>
 {% endcomment %}
-<h1> Room {{ room.name }} </h1>
+
+<style>
+  .room-container {
+    display: flex;
+  }
+</style>
+
+<div class="room-container">
+  <div>
+    <h1>Room {{ room.name }}</h1>
+
+    <p>{{room.description}}</p>
+
+    <div class="comment-wrapper">
+      <h3>Conversation</h3>
+      <hr />
+      <a href="{% url 'delete_message' message.id %}"></a>
+      {% for message in room_messages %}
+      <p>@{{message.user}} {{message.created|timesince}} ago</p>
+      <p>{{message.body}}</p>
+      {% endfor %}
+    </div>
+
+    {% if request.user.is_authenticated %}
+    <div class="comment-form">
+      <form method="POST" action="">
+        {% csrf_token %}
+
+        <input type="text" name="body" placeholder="Write your message..." />
+      </form>
+      {% endif %}
+    </div>
+  </div>
+  <hr />
+
+  <div>
+    <h3>Participants</h3>
+    <hr />
+    {% for user in participants %}
+    <div>
+      <p>@{{user.username}}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
 
 {% endblock %}
